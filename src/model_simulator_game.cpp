@@ -1,6 +1,7 @@
 #include "model_simulator_game.h"
 #include <ncurses.h>
 #include <stdlib.h>
+#include "alien.cpp"
 #include <vector>
 
 Player::Player(int y, int x)
