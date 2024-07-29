@@ -47,13 +47,21 @@ Player& GameModel::getPlayer() {
 
 void GameModel::control_player(wchar_t ch)
 {
-    if (ch==KEY_LEFT)
+    if (ch==KEY_LEFT && player.getX() > 1)
     {
         player.setX(player.getX() - 1);
     }
-    if (ch==KEY_UP)
+    if (ch==KEY_UP && player.getY() > 2)
     {
         player.setY(player.getY() - 1);
+    }
+    if (ch==KEY_RIGHT && player.getX() < width-2)
+    {
+        player.setX(player.getX() + 1);
+    }
+    if (ch==KEY_DOWN && player.getY() < height  )
+    {
+        player.setY(player.getY() + 1);
     }
 };
 
