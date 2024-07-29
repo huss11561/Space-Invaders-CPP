@@ -16,6 +16,8 @@ public:
     void update();  // Function to update the screen
 
     void drawPlayer(int y, int x);  // Function to draw the player
+                                  
+    void drawAlien(int y, int x);  // Function to draw the alien
 
 private:
     // Textures
