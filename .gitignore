@@ -1,0 +1,6 @@
+game 
+controller_console.o
+main.o 
+model_simulator_game.o 
+observer.o 
+view_console.o
