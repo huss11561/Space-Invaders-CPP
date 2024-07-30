@@ -122,7 +122,8 @@ void GameModel::moveAliens()
       alien.setY(newY);
 
       if (newY >= height) {
-          alien.setAlive(false); // Alien goes off-screen
+          alien.setAlive(false); 
+          break;// Alien goes off-screen
       }
   }
 
