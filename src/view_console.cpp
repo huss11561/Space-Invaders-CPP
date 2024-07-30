@@ -32,6 +32,12 @@ void ConsoleView::update() {
 
     // Draw different objects. 
     drawPlayer(model->getPlayer().getY(), model->getPlayer().getX());
+
+    // Draw Aliens only if alive
+    for (const auto& alien : model->getAliens()) {
+      if (alien.isAlive()) 
+    drawAlien(alien.getY(), alien.getX());    
+    }
 };
 
 void ConsoleView::setup_view() {
@@ -46,4 +52,8 @@ void ConsoleView::setup_view() {
 
 void ConsoleView::drawPlayer(int y, int x) {
     mvaddch(y-1, x, 'P');
+};
+
+void ConsoleView::drawAlien(int y, int x) {
+    mvaddch(y, x, 'A');
 };

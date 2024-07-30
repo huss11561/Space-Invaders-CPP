@@ -2,6 +2,8 @@
 #define MODEL_GAME_H_
 
 #include "observer.h" // include header file for the Observable class
+#include "alien.h" // include header file for the Alien class
+#include <vector> // include vector library
 
 class Player {
 public:
@@ -26,12 +28,19 @@ public:
     void control_player(wchar_t ch); // updates player movement direction based on keyboard input
 
     int addOne(int input_value); // Example function - used for simple unit tests
+                                
+    const std::vector<Alien>& getAliens() const; // vector of alien objects
 
 private:
     int width = 40; // game width
     int height = 24; // game height
     int dir = 1; // ball direction
     Player player; // player object
+    std::vector<Alien> aliens; // list of aliens in the Game
+                               
+    void moveAliens(); // moves moveAliens
+    void updateAliens(); // updates updateAliens
+  
 };
 
 #endif // end of header file
