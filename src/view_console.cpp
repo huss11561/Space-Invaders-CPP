@@ -38,6 +38,9 @@ void ConsoleView::update() {
       if (alien.isAlive()) 
     drawAlien(alien.getY(), alien.getX());    
     }
+
+    // Draw Bullets
+    drawBullets();
 };
 
 void ConsoleView::setup_view() {
@@ -56,4 +59,11 @@ void ConsoleView::drawPlayer(int y, int x) {
 
 void ConsoleView::drawAlien(int y, int x) {
     mvaddch(y, x, 'A');
+};
+
+
+void ConsoleView::drawBullets() const {
+    for (const auto& bullet : model->getBullets()) {
+        mvaddch(bullet.getY(), bullet.getX(), '|'); // Use '|' for bullets
+    }
 };

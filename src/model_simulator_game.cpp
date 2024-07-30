@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "alien.cpp"
 #include <vector>
+#include "bullet.cpp"
 
 Player::Player(int y, int x)
 {
@@ -40,12 +41,26 @@ GameModel::GameModel()
       Alien a(AlienY, AlienX);
              
       aliens.push_back(a);
-
-
     }
-    };
+}
+
+void GameModel::fireBullet() {
+    Bullet newBullet(player.getX(), player.getY() - 1);
+    bullets.push_back(newBullet);
+}
 
 
+void GameModel::updateBullets() {
+    for (auto it = bullets.begin(); it != bullets.end(); ) {
+        it->move();
+
+        if (it->isOffScreen(height)) {
+            it = bullets.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
 
 // Example function - used for simple unit tests
 int GameModel::addOne(int input_value) {
@@ -64,6 +79,9 @@ Player& GameModel::getPlayer() {
     return player; 
 };
 
+const std::vector<Bullet>& GameModel::getBullets() const {
+    return bullets;
+}
 const std::vector<Alien>& GameModel::getAliens() const {
     return aliens;
 }
@@ -87,12 +105,15 @@ void GameModel::control_player(wchar_t ch)
     {
         player.setY(player.getY() + 1);
     }
+    if (ch == ' ') {
+        fireBullet(); 
+    }
 };
 
 void GameModel::simulate_game_step()
 {
     // Implement game dynamics.
-     
+    updateBullets();
     notifyUpdate();
     moveAliens();
 };

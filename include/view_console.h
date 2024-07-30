@@ -18,6 +18,8 @@ public:
     void drawPlayer(int y, int x);  // Function to draw the player
                                   
     void drawAlien(int y, int x);  // Function to draw the alien
+    
+    void drawBullets() const;  // Function to draw the bullets
 
 private:
     // Textures

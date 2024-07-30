@@ -4,6 +4,7 @@
 #include "observer.h" // include header file for the Observable class
 #include "alien.h" // include header file for the Alien class
 #include <vector> // include vector library
+#include "bullet.h" // include header file for the Bullet class
 
 class Player {
 public:
@@ -30,16 +31,20 @@ public:
     int addOne(int input_value); // Example function - used for simple unit tests
                                 
     const std::vector<Alien>& getAliens() const; // vector of alien objects
-
+    const std::vector<Bullet>& getBullets() const; // vector of bullet objects
+   
+  
 private:
     int width = 40; // game width
     int height = 24; // game height
     int dir = 1; // ball direction
     Player player; // player object
     std::vector<Alien> aliens; // list of aliens in the Game
+    std::vector<Bullet> bullets; // list of bullets in the Game
                                
     void moveAliens(); // moves moveAliens
-    void updateAliens(); // updates updateAliens
+    void fireBullet(); // fires a bullet
+    void updateBullets(); // updates bullet positions
   
 };
 
