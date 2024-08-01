@@ -41,10 +41,12 @@ private:
     Player player; // player object
     std::vector<Alien> aliens; // list of aliens in the Game
     std::vector<Bullet> bullets; // list of bullets in the Game
+    bool checkCollision(int x1, int y1, int x2, int y2);
                                
     void moveAliens(); // moves moveAliens
     void fireBullet(); // fires a bullet
     void updateBullets(); // updates bullet positions
+    void handleCollisions(); // handles collisions between bullets and aliens/player 
   
 };
 
