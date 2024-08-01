@@ -4,3 +4,4 @@ main.o
 model_simulator_game.o 
 observer.o 
 view_console.o
+*.o
