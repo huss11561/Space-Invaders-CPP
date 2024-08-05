@@ -32,7 +32,7 @@ GameModel::GameModel()
     : player(height, width/2 ){ 
 
     // Initialize the aliens 
-    int alien_count =50;
+    int alien_count =10;
     for (int i = 0; i < alien_count; i++)
     {
 
@@ -44,25 +44,54 @@ GameModel::GameModel()
     }
 }
 
-void GameModel::fireBullet() {
-    Bullet newBullet(player.getX(), player.getY() - 1);
-    bullets.push_back(newBullet);
+void GameModel:: firePlayerBullet() {
+    Bullet newBullet(player.getX(), player.getY() - 1, true);
+    bullets.push_back(newBullet); 
+    notifyUpdate();
+ }
+
+void GameModel::updateBullets() {
+    for (auto it = bullets.begin(); it != bullets.end(); ) {
+        if (it->isFromPlayer()) {
+            it->move(); // Player bullets move up
+
+            if (it->isOffScreen(height)) {
+                it = bullets.erase(it);
+                notifyUpdate();
+            } else {
+                ++it;
+            }
+        } 
+        else {
+            it->move(); // Alien bullets move down
+
+            if (it->isOffScreen(height)) {
+                it = bullets.erase(it);
+                notifyUpdate();
+            } else {
+                ++it;
+
+         }
+    }
+}
+}
+
+void GameModel:: fireAlienBullet() {
+
+  int maxAliensToShoot = 1; // Max number of aliens shooting at the same time
+  int count = 0;
+  for (auto& alien : aliens) {
+      // Random chance to fire a bullet, adjust probability as needed and alien shoudl be alive 
+      if (alien.isAlive() && count < maxAliensToShoot && (std::rand() % 10) < 2) {
+          Bullet newBullet(alien.getX(), alien.getY() + 3, false); // Example bullet drop
+          bullets.push_back(newBullet);
+          count++;
+          }
+  }
     notifyUpdate();
 }
 
 
-void GameModel::updateBullets() {
-    for (auto it = bullets.begin(); it != bullets.end(); ) {
-        it->move();
-
-        if (it->isOffScreen(height)) {
-            it = bullets.erase(it);
-            notifyUpdate();
-        } else {
-            ++it;
-        }
-    }
-}
 
 bool GameModel::checkCollision(int x1, int y1, int x2, int y2) {
     return (x1 == x2 && y1 == y2);
@@ -150,7 +179,7 @@ void GameModel::control_player(wchar_t ch)
         stateChanged = true;
     }
     if (ch == ' ') {
-        fireBullet(); 
+        firePlayerBullet(); 
     }
     if (stateChanged) {
         notifyUpdate();
@@ -164,6 +193,7 @@ void GameModel::simulate_game_step()
     updateBullets();
     notifyUpdate();
     moveAliens();
+    fireAlienBullet();
 };
 
 void GameModel::moveAliens()
@@ -173,13 +203,14 @@ void GameModel::moveAliens()
   static int down = 0;      // Initial vertical movement (0 for no movement, 1 for down)
  
   for (Alien& alien : aliens) {
-      int newX = alien.getX() + direction;
+      
+    int newX = alien.getX() + direction;
 
-      if (newX < 0 || newX >= width) {
-            // If an alien hits the screen edge, change direction and set down to 1
-          direction = -direction;
-          down = 1;
-          break; // Exit the loop to start moving down
+    if (newX < 0 || newX >= width) {
+          // If an alien hits the screen edge, change direction and set down to 1
+      direction = -direction;
+      down = 1;
+      break; // Exit the loop to start moving down
       }
   }
 
