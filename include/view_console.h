@@ -20,8 +20,10 @@ public:
     void drawAlien(int y, int x);  // Function to draw the alien
     
     void drawBullets() const;  // Function to draw the bullets
-
-private:
+                               
+    void drawGameStatus() const;  // Function to draw the game status
+                               
+  private:
     // Textures
     char wallTexture = 'X';  // Wall texture character
 

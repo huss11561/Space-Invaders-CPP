@@ -28,7 +28,9 @@ void ConsoleView::update() {
     }
 
     // Show points of player
-    mvprintw(1, model->getGameWidth() / 2 / 2, "%i", 0);
+    mvprintw(1, model->getGameWidth() / 2 - 15  , "Points : %i  ", model->getPlayer().getPoints());
+    // Show lives of player 
+    mvprintw(1, model->getGameWidth() / 2, "Lives : %i  ", model->getPlayer().getLife());
 
     // Draw different objects. 
     drawPlayer(model->getPlayer().getY(), model->getPlayer().getX());
@@ -41,6 +43,9 @@ void ConsoleView::update() {
 
     // Draw Bullets
     drawBullets();
+
+    // Draw Victory or Game Over message
+    drawGameStatus();
 };
 
 void ConsoleView::setup_view() {
@@ -64,6 +69,15 @@ void ConsoleView::drawAlien(int y, int x) {
 
 void ConsoleView::drawBullets() const {
     for (const auto& bullet : model->getBullets()) {
-        mvaddch(bullet.getY(), bullet.getX(), '|'); // Use '|' for bullets
+        mvaddch(bullet.getY(), bullet.getX(), '|' ); // Use '|' for bullets
+    }
+};
+
+void ConsoleView::drawGameStatus() const {
+    // Display Victory or Game Over messages if appropriate
+    if (model->getPlayer().getLife() == 0 && model->getPlayer().getPoints() < model->getAlienCount()) {
+        mvprintw(model->getGameHeight() / 2, (model->getGameWidth() - 9) / 2, "GAME OVER");
+    } else if (model->getPlayer().getPoints() == model->getAlienCount()) {
+        mvprintw(model->getGameHeight() / 2, (model->getGameWidth() - 7) / 2, "VICTORY");
     }
 };
