@@ -4,11 +4,14 @@
 #include "alien.cpp"
 #include <vector>
 #include "bullet.cpp"
+#include <iostream> 
 
 Player::Player(int y, int x)
 {
     setX(x);
     setY(y);
+    setLife(1000);
+    setPoints(0);
 };
 
 
@@ -27,12 +30,23 @@ void Player::setX(int a) {
 void Player::setY(int a) {
     y = a;
 };
+void Player::setLife(int a) {
+    life = a;
+};
+int Player::getLife() { 
+    return life;
+};
+void Player::setPoints(int a) { 
+  points = a;
+};
+int Player::getPoints() { 
+    return points;
+};
 
 GameModel::GameModel()
-    : player(height, width/2 ){ 
+    : player(height, width/2), alien_count(5){ 
 
     // Initialize the aliens 
-    int alien_count =10;
     for (int i = 0; i < alien_count; i++)
     {
 
@@ -82,7 +96,7 @@ void GameModel:: fireAlienBullet() {
   int count = 0;
   for (auto& alien : aliens) {
       // Random chance to fire a bullet, adjust probability as needed and alien shoudl be alive 
-      if (alien.isAlive() && count < maxAliensToShoot && (std::rand() % 10) < 2) {
+      if (alien.isAlive() && count < maxAliensToShoot && (std::rand() % 10) < 2) { 
           Bullet newBullet(alien.getX(), alien.getY() + 3, false); // Example bullet drop
           bullets.push_back(newBullet);
           count++;
@@ -98,15 +112,20 @@ bool GameModel::checkCollision(int x1, int y1, int x2, int y2) {
 }
 
 void GameModel::handleCollisions() {
-    for (auto it = bullets.begin(); it != bullets.end(); ) {
+    for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); ) {
         bool bulletRemoved = false;
 
         for (Alien& alien : aliens) {
-            if (alien.isAlive() && checkCollision(it->getX(), it->getY(), alien.getX(), alien.getY())) {
+            if (alien.isAlive() && checkCollision(bulletIt->getX(), bulletIt->getY(), alien.getX(), alien.getY())) {
                 // Alien is hit
                 alien.setAlive(false);
+                // Increase player points 
+                player.setPoints(player.getPoints() + 1);
+                if (player.getPoints() == alien_count) {
+                    victory(); 
+                }
                 // Remove bullet
-                it = bullets.erase(it);
+                bulletIt = bullets.erase(bulletIt);
                 bulletRemoved = true;
                 notifyUpdate(); // Notify the view that the alien is hit
                 break;
@@ -114,22 +133,29 @@ void GameModel::handleCollisions() {
         }
 
         if (!bulletRemoved) {
-            ++it;
+            ++bulletIt;
         }
     }
 
     //if bullet hit player 
-    for (auto it = bullets.begin(); it != bullets.end(); ) {
-        if (checkCollision(it->getX(), it->getY(), player.getX(), player.getY())) {
+    for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); ) {
+    if (checkCollision(bulletIt->getX(), bulletIt->getY(), player.getX(), player.getY())) { 
              // Remove bullet
-            it = bullets.erase(it);
-            notifyUpdate(); // Notify the view that the player is hit
-            break;
-        } else {
-            ++it;
+            bulletIt = bullets.erase(bulletIt);
+            // Remove Playerlife
+            player.setLife(player.getLife() - 1);
+            notifyUpdate(); // Notify the view that the player is hit 
+            if (player.getLife() == 0) {
+              gameOver();
+              break;
+            }
+          }
+    else {
+            ++bulletIt;
         }
     }
 }
+ 
 // Example function - used for simple unit tests
 int GameModel::addOne(int input_value) {
     return (++input_value); 
@@ -154,6 +180,22 @@ const std::vector<Alien>& GameModel::getAliens() const {
     return aliens;
 }
 
+int GameModel::getAlienCount() {
+    return alien_count;
+}
+void GameModel::victory(){ 
+  notifyUpdate();
+}
+void GameModel::gameOver(){
+  player.setLife(0);
+  for (Alien& alien : aliens) {
+      alien.setAlive(false);
+  }
+  for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); ) {
+      bulletIt = bullets.erase(bulletIt);
+  } 
+  notifyUpdate();
+}
 
 void GameModel::control_player(wchar_t ch)
 {
@@ -163,19 +205,14 @@ void GameModel::control_player(wchar_t ch)
         player.setX(player.getX() - 1);
         stateChanged = true;
     }
-    if (ch==KEY_UP && player.getY() > 2)
-    {
-        player.setY(player.getY() - 1);
-        stateChanged = true;
-    }
     if (ch==KEY_RIGHT && player.getX() < width-2)
     {
         player.setX(player.getX() + 1);
         stateChanged = true;
     }
-    if (ch==KEY_DOWN && player.getY() < height  )
+    if (ch==KEY_UP && player.getY() > 1)
     {
-        player.setY(player.getY() + 1);
+        player.setY(player.getY() - 1);
         stateChanged = true;
     }
     if (ch == ' ') {
@@ -222,8 +259,7 @@ void GameModel::moveAliens()
       alien.setY(newY);
 
       if (newY >= height) {
-          alien.setAlive(false); 
-          notifyUpdate();
+          gameOver();
           break;// Alien goes off-screen
       }
   }

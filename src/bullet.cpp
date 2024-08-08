@@ -16,7 +16,7 @@ void Bullet::move() {
 }
 
 bool Bullet::isOffScreen(int height) const {
-    return y < 0 || y >= height;
+    return y < 0 || y > height;
 }
 
 bool Bullet::isFromPlayer() const {
