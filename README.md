@@ -6,6 +6,7 @@ A simple C++ implementation of the classic Space Invaders game. This project dem
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Uninstall](#uninstall)
 - [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
@@ -63,7 +64,17 @@ brew install gcc boost ncurses
 ```bash
 ./game
 ```
- 
+## Uninstall 
+
+To remove the game and compiled files, run the following command:
+```bash
+make clean
+```
+after that, you can remove the project directory:
+```bash
+rm -rf Space-Invaders-CPP
+```
+
 ## Features 
 
 - Player movement and shooting mechanics
