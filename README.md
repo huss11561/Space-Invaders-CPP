@@ -8,7 +8,9 @@ A simple C++ implementation of the classic Space Invaders game. This project dem
 - [Usage](#usage)
 - [Features](#features)
 - [Contributing](#contributing)
+- [License](#license)
 - [Contact](#contact)
+- [Acknowledgements] / [Credits](#acknowledgements)
 
 ## Installation 
 
@@ -77,6 +79,16 @@ brew install gcc boost ncurses
 - Make your changes.
 - Submit a pull request
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) filefor details.
+
 ## Contact 
 
 - E-mail: hballita@uni-muenster.de
+
+## acknowledgements
+
+https://github.com/gzi890 - for helping me with the project 
+
+```
