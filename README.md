@@ -100,5 +100,5 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 ## Acknowledgements
 
-https://github.com/gzi890 - for helping me with the project 
+https://github.com/gzi890 - for co-working with me on this project
 
