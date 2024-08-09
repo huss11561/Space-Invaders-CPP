@@ -20,7 +20,7 @@ A simple C++ implementation of the classic Space Invaders game. This project dem
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/huss11561/Space-Invaders-C.git
+   git clone https://github.com/huss11561/Space-Invaders-CPP.git
    ```
 2. Navigate to the project directory:
    ```bash
