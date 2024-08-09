@@ -10,7 +10,7 @@ Player::Player(int y, int x)
 {
     setX(x);
     setY(y);
-    setLife(1000);
+    setLife(5);
     setPoints(0);
 };
 
@@ -44,7 +44,7 @@ int Player::getPoints() {
 };
 
 GameModel::GameModel()
-    : player(height, width/2), alien_count(5){ 
+    : player(height, width/2), alien_count(10){ 
 
     // Initialize the aliens 
     for (int i = 0; i < alien_count; i++)
@@ -96,7 +96,7 @@ void GameModel:: fireAlienBullet() {
   int count = 0;
   for (auto& alien : aliens) {
       // Random chance to fire a bullet, adjust probability as needed and alien shoudl be alive 
-      if (alien.isAlive() && count < maxAliensToShoot && (std::rand() % 10) < 2) { 
+      if (alien.isAlive() && count < maxAliensToShoot && (std::rand() % 100) < 2) { 
           Bullet newBullet(alien.getX(), alien.getY() + 3, false); // Example bullet drop
           bullets.push_back(newBullet);
           count++;
@@ -209,12 +209,7 @@ void GameModel::control_player(wchar_t ch)
     {
         player.setX(player.getX() + 1);
         stateChanged = true;
-    }
-    if (ch==KEY_UP && player.getY() > 1)
-    {
-        player.setY(player.getY() - 1);
-        stateChanged = true;
-    }
+    } 
     if (ch == ' ') {
         firePlayerBullet(); 
     }
