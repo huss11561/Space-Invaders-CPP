@@ -10,7 +10,7 @@ A simple C++ implementation of the classic Space Invaders game. This project dem
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
-- [Acknowledgements]/[Credits](#acknowledgements)
+- [Acknowledgements](#acknowledgements)
 
 ## Installation 
 
@@ -87,7 +87,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 - E-mail: hballita@uni-muenster.de
 
-## acknowledgements
+## Acknowledgements
 
 https://github.com/gzi890 - for helping me with the project 
 
