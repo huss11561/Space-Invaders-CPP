@@ -10,7 +10,7 @@ A simple C++ implementation of the classic Space Invaders game. This project dem
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
-- [Acknowledgements] / [Credits](#acknowledgements)
+- [Acknowledgements]/[Credits](#acknowledgements)
 
 ## Installation 
 
