@@ -49,6 +49,8 @@ private:
     std::vector<Bullet> bullets; // list of bullets in the Game
     bool checkCollision(int x1, int y1, int x2, int y2);
     int alien_count;
+    int alienShotStepCounter; // Counter for game steps since the last shot
+    int alienShotInterval;    // Number of game steps between shots
                                  
     void moveAliens(); // moves moveAliens
     void firePlayerBullet(); // fires a bullet
