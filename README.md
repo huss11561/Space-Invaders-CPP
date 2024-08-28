@@ -18,7 +18,7 @@ A simple C++ implementation of the classic Space Invaders game. This project dem
 ### Prerequisites
 - C++20 compiler (g++, clang++)
 - ncurses library
-- Boost library for unit testing (optional)
+- Boost library 
 
 #### Linux Prerequisites:
 
