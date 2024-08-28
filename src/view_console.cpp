@@ -46,6 +46,9 @@ void ConsoleView::update() {
 
     // Draw Victory or Game Over message
     drawGameStatus();
+
+    // Draw Stones 
+    drawStones();
 };
 
 void ConsoleView::setup_view() {
@@ -81,3 +84,34 @@ void ConsoleView::drawGameStatus() const {
         mvprintw(model->getGameHeight() / 2, (model->getGameWidth() - 7) / 2, "VICTORY");
     }
 };
+
+// Implement the drawStones() function
+void ConsoleView::drawStones() {
+  const auto& stones = model->getStones();
+    for (const auto& stone : stones) {
+      if (!stone.isBroken()) {
+        int x = stone.getX();
+        int y = stone.getY();
+        int health = stone.getHealth();
+
+        char wallTexture = 'X';
+        if (health == 4) {
+            wallTexture = 'X';
+        } else if (health == 3) {
+            wallTexture = 'x';
+        } else if (health == 2) {
+            wallTexture = '*';
+        } else if (health == 1) {
+            wallTexture = '.';
+        }
+
+        mvaddch(y,x, wallTexture);
+    }
+      else {
+        mvaddch(stone.getY(), stone.getX(), ' ');
+      }
+
+    }
+};
+
+

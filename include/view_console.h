@@ -22,7 +22,8 @@ public:
     void drawBullets() const;  // Function to draw the bullets
                                
     void drawGameStatus() const;  // Function to draw the game status
-                               
+    
+    void drawStones() ;  // Function to draw the stones
   private:
     // Textures
     char wallTexture = 'X';  // Wall texture character
