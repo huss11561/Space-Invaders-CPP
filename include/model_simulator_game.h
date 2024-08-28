@@ -5,6 +5,8 @@
 #include "alien.h" // include header file for the Alien class
 #include <vector> // include vector library
 #include "bullet.h" // include header file for the Bullet class
+#include "stone.h"  // Include the Stone header
+
 
 class Player {
 public:
@@ -38,7 +40,8 @@ public:
                                 
     const std::vector<Alien>& getAliens() const; // vector of alien objects
     const std::vector<Bullet>& getBullets() const; // vector of bullet objects
-   
+    const std::vector<Stone>& getStones() const;
+    
   
 private:
     int width = 40; // game width
@@ -47,6 +50,7 @@ private:
     Player player; // player object
     std::vector<Alien> aliens; // list of aliens in the Game
     std::vector<Bullet> bullets; // list of bullets in the Game
+    std::vector<Stone> stones; // Add stones to the game model
     bool checkCollision(int x1, int y1, int x2, int y2);
     int alien_count;
     int alienShotStepCounter; // Counter for game steps since the last shot
@@ -59,6 +63,7 @@ private:
     void fireAlienBullet(); // fires a bullet from an alien 
     void gameOver(); // ends the game
     void victory(); // ends the game
+    void initializeStones(); // Initialize the stones
     
 };
 

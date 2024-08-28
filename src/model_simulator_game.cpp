@@ -4,8 +4,8 @@
 #include "alien.cpp"
 #include <vector>
 #include "bullet.cpp"
-#include <iostream> 
-#include <chrono>
+#include <iostream>
+#include "stone.cpp"
 
 Player::Player(int y, int x)
 {
@@ -45,7 +45,7 @@ int Player::getPoints() {
 };
 
 GameModel::GameModel()
-    : player(height, width/2), alien_count(40), alienShotStepCounter(0), alienShotInterval(30){ 
+    : player(height, width/2), alien_count(80), alienShotStepCounter(0), alienShotInterval(30){ 
 
     // Initialize the aliens 
     for (int i = 0; i < alien_count; i++)
@@ -57,6 +57,12 @@ GameModel::GameModel()
              
       aliens.push_back(a);
     }
+}
+void GameModel::initializeStones () {
+    stones.push_back(Stone(width/4, height/2, 5));   // Stone 1
+    stones.push_back(Stone(3 * width/4, height/2,5)); // Stone 2
+    stones.push_back(Stone(width/2, height/2, 5)); // Stone 3
+    stones.push_back(Stone(width/4, height/2 + 5, 5)); // Stone 4
 }
 
 void GameModel:: firePlayerBullet() {
@@ -120,7 +126,7 @@ void GameModel::fireAlienBullet() {
 
         for (auto& alien : aliens) {
             // Random chance to fire a bullet, adjust probability as needed and alien should be alive
-            if (alien.isAlive() && count < maxAliensToShoot) { 
+            if (alien.isAlive() && count < maxAliensToShoot && rand() % 100 < 10){ 
                 Bullet newBullet(alien.getX(), alien.getY() + 3, false); // Example bullet drop
                 bullets.push_back(newBullet);
                 count++;
@@ -181,7 +187,30 @@ void GameModel::handleCollisions() {
             ++bulletIt;
         }
     }
-}
+
+    // Check for collisions between bullets and stones only for playerBullet 
+    for (auto bulletIt = bullets.begin(); bulletIt != bullets.end(); ) {
+        bool bulletRemoved = false;
+
+        for (Stone& stone : stones) {
+          if (bulletIt->isFromPlayer() && !stone.isBroken() && checkCollision(bulletIt->getX(), bulletIt->getY(), stone.getX(), stone.getY())) {
+                // Stone is hit
+                stone.takeDamage();
+                // Remove bullet
+                bulletIt = bullets.erase(bulletIt);
+                bulletRemoved = true;
+                notifyUpdate(); // Notify the view that the stone is hit
+                break;
+            }
+        }
+
+        if (!bulletRemoved) {
+            ++bulletIt;
+        }
+    }
+
+ }
+ 
  
 // Example function - used for simple unit tests
 int GameModel::addOne(int input_value) {
@@ -205,6 +234,10 @@ const std::vector<Bullet>& GameModel::getBullets() const {
 }
 const std::vector<Alien>& GameModel::getAliens() const {
     return aliens;
+}
+
+const std::vector<Stone>& GameModel::getStones() const {
+    return stones;
 }
 
 int GameModel::getAlienCount() {
@@ -253,11 +286,16 @@ void GameModel::simulate_game_step()
     notifyUpdate();
     moveAliens();
     fireAlienBullet();
+    static bool initialized = false;
+    if (!initialized) {
+        initializeStones();
+        initialized = true;
+    }
 };
 void GameModel::moveAliens()
 {
     static int stepCounter = 0;
-    int stepsBetweenMoves = 30; // Default movement interval when more than 10 aliens are alive
+    int stepsBetweenMoves = 50; // Default movement interval when more than 10 aliens are alive
 
     // Get the number of remaining aliens
     int remainingAliens = 0;
@@ -269,17 +307,17 @@ void GameModel::moveAliens()
 
     // Adjust the speed based on the number of remaining aliens
     if (remainingAliens <= 10 && remainingAliens > 5) {
-        stepsBetweenMoves = 5; // Move every 5 game steps
+        stepsBetweenMoves = 35; // Move every 5 game steps
     } else if (remainingAliens <= 5 && remainingAliens > 3) {
-        stepsBetweenMoves = 3; // Move every 3 game steps
+        stepsBetweenMoves = 25; // Move every 3 game steps
     } else if (remainingAliens <= 3 && remainingAliens > 2) {
-        stepsBetweenMoves = 2; // Move every 2 game steps
+        stepsBetweenMoves = 15; // Move every 2 game steps
     }
     else if (remainingAliens <=2 && remainingAliens > 1) {
-        stepsBetweenMoves = 1; // Move every 1 game step
+        stepsBetweenMoves = 10; // Move every 1 game step
     }
     else if (remainingAliens == 1) {
-        stepsBetweenMoves = 0; // Move every 0 game step
+        stepsBetweenMoves = 5; // Move every 0 game step
     }
 
     // Only move the aliens every `stepsBetweenMoves` game steps
