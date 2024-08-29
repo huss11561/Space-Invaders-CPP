@@ -6,6 +6,7 @@
 #include "bullet.cpp"
 #include <iostream>
 #include "stone.cpp"
+#include "autocontroller.cpp"
 
 Player::Player(int y, int x)
 {
@@ -45,7 +46,7 @@ int Player::getPoints() {
 };
 
 GameModel::GameModel()
-    : player(height, width/2), alien_count(80), alienShotStepCounter(0), alienShotInterval(30){ 
+    : player(height, width/2), alien_count(80), alienShotStepCounter(0), alienShotInterval(30), autoController(new AutoController(this)) { 
 
     // Initialize the aliens 
     for (int i = 0; i < alien_count; i++)
@@ -58,6 +59,11 @@ GameModel::GameModel()
       aliens.push_back(a);
     }
 }
+
+GameModel::~GameModel() {
+    delete autoController;
+}
+
 void GameModel::initializeStones () {
     stones.push_back(Stone(width/4, height/2, 5));   // Stone 1
     stones.push_back(Stone(3 * width/4, height/2,5)); // Stone 2
@@ -272,6 +278,10 @@ void GameModel::control_player(wchar_t ch)
     } 
     if (ch == ' ') {
         firePlayerBullet(); 
+        stateChanged = true;
+    }
+    if (ch == 'a') {
+        autoController->toggleAutoMode();
     }
     if (stateChanged) {
         notifyUpdate();
@@ -280,6 +290,7 @@ void GameModel::control_player(wchar_t ch)
 
 void GameModel::simulate_game_step()
 {
+    autoController->update();
     // Implement game dynamics.
     handleCollisions();
     updateBullets();

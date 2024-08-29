@@ -6,6 +6,7 @@
 #include <vector> // include vector library
 #include "bullet.h" // include header file for the Bullet class
 #include "stone.h"  // Include the Stone header
+#include "autocontroller.h" // Include the autocontroller header
 
 
 class Player {
@@ -28,6 +29,7 @@ public:
 class GameModel : public Observable { // Game class inherits from Observable class
 public:
     GameModel(); // constructor
+    ~GameModel(); // destructor
 
     int getGameWidth(); // returns the game's width
     int getGameHeight(); // returns the game's height
@@ -55,6 +57,7 @@ private:
     int alien_count;
     int alienShotStepCounter; // Counter for game steps since the last shot
     int alienShotInterval;    // Number of game steps between shots
+    AutoController* autoController;
                                  
     void moveAliens(); // moves moveAliens
     void firePlayerBullet(); // fires a bullet
