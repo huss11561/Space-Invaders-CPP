@@ -1,6 +1,6 @@
 #include "alien.h"
 
-Alien::Alien(int y, int x) : x(x), y(y) {}
+Alien::Alien(int y, int x) : x(x), y(y) alive(true) {}
 
 int Alien::getX() const { return x; }
 int Alien::getY() const { return y; }
