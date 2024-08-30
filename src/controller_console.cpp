@@ -1,16 +1,20 @@
 #include "controller_console.h"
 #include "autocontroller.h"
 
+// Konstruktor für die Klasse ConsoleController
+// Initialisiert das GameModel-Zeiger mit dem übergebenen Modell
 ConsoleController::ConsoleController(GameModel* model) {
-	this->model = model;
-};
+    this->model = model;
+}
 
+// Methode zum Empfangen der Benutzereingabe von der Konsole
+// Gibt das eingegebene Zeichen zurück und steuert den Spieler basierend auf der Eingabe
 wchar_t ConsoleController::getInput() {
-    wchar_t ch = getch();
-    model->control_player(ch);
-    return ch;
-    
-};
+    wchar_t ch = getch(); // Liest ein Zeichen von der Konsole ein
+    model->control_player(ch); // Übermittelt die Eingabe an das GameModel, um den Spieler zu steuern
+    return ch; // Gibt das eingelesene Zeichen zurück
+}
+
 
 
 /*
