@@ -58,8 +58,19 @@ GameModel::GameModel()
              
       aliens.push_back(a);
     }
+
+}
+void GameModel::addAlien(int x, int y) {
+    aliens.push_back(Alien(x, y));
 }
 
+void GameModel::addBullet(int x, int y, bool isPlayerBullet) {
+    bullets.push_back(Bullet(x, y, isPlayerBullet));
+}
+
+void GameModel::addStone(int x, int y, int size) {
+    stones.push_back(Stone(x, y, size));
+} 
 GameModel::~GameModel() {
     delete autoController;
 }
@@ -217,7 +228,7 @@ void GameModel::handleCollisions() {
 
  }
  
- 
+
 // Example function - used for simple unit tests
 int GameModel::addOne(int input_value) {
     return (++input_value); 
@@ -235,16 +246,19 @@ Player& GameModel::getPlayer() {
     return player; 
 };
 
-const std::vector<Bullet>& GameModel::getBullets() const {
-    return bullets;
-}
-const std::vector<Alien>& GameModel::getAliens() const {
+// In model_simulator_game.cpp
+std::vector<Alien>& GameModel::getAliens() {
     return aliens;
 }
 
-const std::vector<Stone>& GameModel::getStones() const {
+std::vector<Bullet>& GameModel::getBullets() {
+    return bullets;
+}
+
+std::vector<Stone>& GameModel::getStones() {
     return stones;
 }
+
 
 int GameModel::getAlienCount() {
     return alien_count;
