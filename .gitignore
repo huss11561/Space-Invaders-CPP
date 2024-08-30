@@ -4,5 +4,6 @@ main.o
 model_simulator_game.o 
 observer.o 
 view_console.o
+test_call.o
 *.o
 tests

@@ -41,10 +41,16 @@ public:
     void control_player(wchar_t ch); // updates player movement direction based on keyboard input
     int addOne(int input_value); // Example function - used for simple unit tests
                                 
-    const std::vector<Alien>& getAliens() const; // vector of alien objects
-    const std::vector<Bullet>& getBullets() const; // vector of bullet objects
-    const std::vector<Stone>& getStones() const;
+    std::vector<Alien>& getAliens(); // vector of alien objects
+    std::vector<Bullet>& getBullets(); // vector of bullet objects
+    std::vector<Stone>& getStones();
+    bool checkCollision(int x1, int y1, int x2, int y2);
     
+    void addAlien(int x, int y);
+    void addBullet(int x, int y, bool isPlayerBullet);
+    void addStone(int x, int y, int size); 
+    void handleCollisions(); // handles collisions between bullets and aliens/player
+
   
 private:
     int width = 40; // game width
@@ -54,7 +60,6 @@ private:
     std::vector<Alien> aliens; // list of aliens in the Game
     std::vector<Bullet> bullets; // list of bullets in the Game
     std::vector<Stone> stones; // Add stones to the game model
-    bool checkCollision(int x1, int y1, int x2, int y2);
     int alien_count;
     int alienShotStepCounter; // Counter for game steps since the last shot
     int alienShotInterval;    // Number of game steps between shots
@@ -63,7 +68,6 @@ private:
     void moveAliens(); // moves moveAliens
     void firePlayerBullet(); // fires a bullet
     void updateBullets(); // updates bullet positions
-    void handleCollisions(); // handles collisions between bullets and aliens/player
     void fireAlienBullet(); // fires a bullet from an alien 
     void gameOver(); // ends the game
     void victory(); // ends the game
