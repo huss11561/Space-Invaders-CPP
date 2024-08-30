@@ -39,3 +39,4 @@ void AutoController::toggleAutoMode() {
     isActive = !isActive; // Ändere den Status von isActive (aktiv oder inaktiv)
 }
 
+

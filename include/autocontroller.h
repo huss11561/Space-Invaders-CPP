@@ -12,8 +12,7 @@ public:
     AutoController(GameModel* model); // Constructor
     void update();                     // Update method to be called in game loop
     void toggleAutoMode();            // Method to toggle auto mode
-};
 
-#endif
+  #endif
 
 /*an der MVC-Struktur ändert sich nicht viel durch die Implementierung des AutoControllers, denn diese gibt "virtuelle" controllbefehle an dem Modell weiter und ersetzt damit den eigentlichen consoleController, welcher auf tastatureingaben wartet um diese dann an dem Modell weiterzugeben.*/ 
