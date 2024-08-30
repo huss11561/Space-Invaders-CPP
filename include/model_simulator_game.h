@@ -6,7 +6,8 @@
 #include <vector> // include vector library
 #include "bullet.h" // include header file for the Bullet class
 #include "stone.h"  // Include the Stone header
-#include "autocontroller.h" // Include the autocontroller header
+#include "autocontroller.h" // Include the AutoController header
+
 
 
 class Player {
